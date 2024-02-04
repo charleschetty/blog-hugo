@@ -1,0 +1,54 @@
+baseURL = 'http://charleschetty.github.io/blog-hugo'
+languageCode = 'en-us'
+title = "Charles's Blog"
+copyright = "© Charles Chetty"
+# Code Highlight
+pygmentsstyle = "catppuccin-frappe"
+pygmentscodefences = true
+pygmentscodefencesguesssyntax = true
+
+
+paginate=3 # articles per page
+
+[params]
+	mode="toggle" # color-mode → light,dark,toggle or auto
+	useCDN=true # don't use CDNs for fonts and icons, instead serve them locally.
+	# subtitle = "Charles Chetty's Blog"
+	mathjax = true # enable MathJax support
+	# katex = true # enable KaTeX support
+
+# Social Tags
+
+# https://fontawesome.com/search
+[[params.social]]
+name = "GitHub"
+icon = "fa-brands fa-github"
+url = "https://github.com/charleschetty"
+
+[[params.social]]
+name = "BiliBili"
+icon = "fa-brands fa-bilibili"
+url = "https://space.bilibili.com/1169086549"
+
+
+# Main menu Items
+
+[[menu.main]]
+name = "Home"
+url = "/"
+weight = 1
+
+[[menu.main]]
+name = "All posts"
+url = "/posts"
+weight = 2
+
+[[menu.main]]
+name = "About"
+url = "/about"
+weight = 3
+
+[[menu.main]]
+name = "Tags"
+url = "/tags"
+weight = 4
