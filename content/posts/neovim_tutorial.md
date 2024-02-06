@@ -1,8 +1,8 @@
 ---
 title: "A tutorial about NeoVim"
 date: 2024-02-04
-description: "A step by step guide(todo)"
-tags: [IDE, vim]
+description: "This tutorial is for people who want to try neovim, but don't know how to start. I will guide you step by step to make your own IDE based on NeoVim."
+tags: [vim]
 toc: true
 ---
 
@@ -184,14 +184,16 @@ However, the completion's UI is ugly, I think. Limited by article length, I can'
 - [handlersmason.lua](https://github.com/charleschetty/dotfile/blob/main/config/nvim/lua/user/cmp/handlersmason.lua) 
 - [cmp.lua](https://github.com/charleschetty/dotfile/blob/main/config/nvim/lua/user/cmp/cmp.lua)
 
-### Other useful plugins
-There are some plugins I recommend, and you can install and configure them by yourself or simply copy my config.
+### Practice: install and configure following plugins
+There are some plugins I recommend, and you can install and configure them by yourself or simply copy [my config](https://github.com/charleschetty/dotfile/tree/main/config/nvim).
 - [lsp_signature.nvim](https://github.com/ray-x/lsp_signature.nvim): Show function signature when you type
 - [lspsaga.nvim](https://github.com/nvimdev/lspsaga.nvim): Improve neovim lsp experience 
 - [guard.nvim](https://github.com/nvimdev/guard.nvim): Async formatting and linting utility for neovim
 - [nvim-autopairs](https://github.com/windwp/nvim-autopairs): A super powerful autopair plugin for Neovim that supports multiple characters.
+- [Comment.nvim](https://github.com/numToStr/Comment.nvim): Smart and powerful comment plugin for neovim.
+- [trouble.nvim](https://github.com/folke/trouble.nvim):  A pretty diagnostics, references, telescope results, quickfix and location list to help you solve all the trouble your code is causing. 
 
-You may have trouble dealing with the shortcuts of `lspsaga.nvim`, so I give you my keymap. 
+You may have trouble dealing with the shortcuts, so I give you my keymap. 
 If you have any questions, please read the document about [nvim_set_keymap](https://neovim.io/doc/user/api.html#nvim_set_keymap()).
 ```lua 
 	local keymap = vim.api.nvim_set_keymap
@@ -212,6 +214,12 @@ If you have any questions, please read the document about [nvim_set_keymap](http
 	keymap("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts)
 	keymap("n", "<C-\\>", "<cmd>Lspsaga term_toggle<CR>", opts)
 	keymap("t", "<C-\\>", "<cmd>Lspsaga term_toggle<CR>", opts)
+
+    -- for comment.nvim
+	keymap("n", "<leader>/", "<cmd>lua require(\"Comment.api\").toggle.linewise.current()<CR>", opts)
+
+    -- for trouble.nvim
+    keymap('n', '<leader>t', ':TroubleToggle<cr>', opts)
 ```
 
 
@@ -264,6 +272,7 @@ require("lazy").setup({
 		config = function()
 			vim.opt.termguicolors = true
 			require("bufferline").setup({})
+            -- configure it by yourself 
 		end,
 	},
 	{
@@ -271,6 +280,7 @@ require("lazy").setup({
 		dependencies = {"nvim-tree/nvim-web-devicons"},
 		config = function()
 			require("nvim-tree").setup({})
+            -- configure it by yourself 
 		end,
 	},
 })
@@ -278,4 +288,55 @@ require("lazy").setup({
 -- my keymap
 keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 ```
+Looks like having these two plugins is better than none. But that is not enough.
+
+Install [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim). Now you can use the shortcuts to find file/buffer, grep in a very convenient way.
+```lua
+require("lazy").setup({
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+})
+-- my keymap
+keymap("n", "<leader>f",
+  "<cmd>lua require'telescope.builtin'.find_files(require('telescope.themes').get_dropdown({ previewer = false }))<cr>",
+  opts)
+keymap("n", "<c-t>", "<cmd>Telescope live_grep<cr>", opts)
+keymap("n", "<leader>b",
+      "<cmd>lua require('telescope.builtin').buffers(require('telescope.themes').get_dropdown{previewer = false})<cr>",
+  opts)
+```
+
+There is also another plugin I like: [nvim-bufdel](https://github.com/ojroques/nvim-bufdel), but if you don't care about the way of closing buffers, never mind.
+
+I didn't show specific configuration of each plugin, because I think everyone has their own customization. And here is [my config](https://github.com/charleschetty/dotfile/tree/main/config/nvim)
+
+## Other plugins and configuration 
+
+There are still several plugins can enhance your experience, if you are interested, you can see their repo. And there are also a number of internal variables that vim has,
+you can see [my conifg](https://github.com/charleschetty/dotfile/blob/main/config/nvim/lua/user/options.lua) and the [official document](https://neovim.io/doc/user/quickref.html#option-list).
+- [wilder.nvim](https://github.com/gelguy/wilder.nvim): A more adventurous wildmenu
+- [nvim-ufo](https://github.com/kevinhwang91/nvim-ufo): Not UFO in the sky, but an ultra fold in Neovim. (It is better to use it with [statuscol.nvim](https://github.com/luukvbaal/statuscol.nvim))
+- [flash.nvim](https://github.com/folke/flash.nvim):Navigate your code with search labels, enhanced character motions and Treesitter integration 
+    - The best plugin for searching
+- [nvim-spider](https://github.com/chrisgrieser/nvim-spider): Use the `w`, `e`, `b` motions like a spider. Move by subwords and skip insignificant punctuation. 
+- [vim-matchup](https://github.com/andymass/vim-matchup): vim match-up: even better `%` navigate and highlight matching words modern matchit and matchparen. Supports both vim and neovim + tree-sitter. 
+
+The following plugins are for better look.
+
+- [aplha-nvim](https://github.com/goolord/alpha-nvim): A fast and fully programmable greeter for neovim.
+- [Indent Blankline](https://github.com/lukas-reineke/indent-blankline.nvim): This plugin adds indentation guides to Neovim
+- [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim): A blazing fast and easy to configure Neovim statusline written in Lua.
+- [which-key.nvim](https://github.com/folke/which-key.nvim): WhichKey is a lua plugin for Neovim 0.5 that displays a popup with possible key bindings of the command you started typing.
+    - If you are not familiar with your keymaps, maybe this plugin is useful
+- [illuminate.vim](https://github.com/RRethy/vim-illuminate): Neovim plugin for automatically highlighting other uses of the word under the cursor using either LSP, Tree-sitter, or regex matching.
+- [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens): nvim-hlslens helps you better glance at matched information, seamlessly jump between matched instances.
+
+### FAQ 
+
+- Debug?  
+    - I use [gdb-dashboard](https://github.com/cyrus-and/gdb-dashboard), Clion, VSc to debug, if you want to debug your program in neovim, you can use [nvim-dap](https://github.com/mfussenegger/nvim-dap).
+- How to (compile and )run my program in neovim? 
+    - I use a specific terminal to run and test my program, if you'd like to do it with neovim, you can use [code_runner.nvim](https://github.com/CRAG666/code_runner.nvim)
 
