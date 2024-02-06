@@ -30,9 +30,6 @@ name = "BiliBili"
 icon = "fa-brands fa-bilibili"
 url = "https://space.bilibili.com/1169086549"
 
-
-# Main menu Items
-
 [[menu.main]]
 name = "Home"
 url = "/"
@@ -52,3 +49,16 @@ weight = 3
 name = "Tags"
 url = "/tags"
 weight = 4
+
+
+
+[outputs]
+  home = ['html', 'rss']
+  section = ['html', 'rss']
+  taxonomy = ['html']
+  term = ['html']
+
+
+[params.author]
+name = 'Charles Chetty'
+

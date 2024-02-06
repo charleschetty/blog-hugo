@@ -11,6 +11,10 @@
   <div class="footer-info">
     {{ dateFormat "2006" now }} {{ with .Site.Copyright }} {{ . }} | {{ end }} 
   </div>
+ &nbsp; 
+  <a class="soc" href="{{ $.Site.BaseURL}}/index.xml"  title="RSS">
+   <i class="fa-solid fa-rss"></i>
+    </a>
 </footer>
 {{ if not .Site.IsServer }}
 {{ template "_internal/google_analytics_async.html" . }}

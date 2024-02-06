@@ -11,6 +11,19 @@
 			{{ .Params.tldr }}
 		</div>{{ end }}
 
+
+		{{ if isset .Params "toc" }}
+		{{if eq .Params.toc true}}
+		<div> 
+			<div class="toc"> Table of contents</div>
+		<aside>
+			{{ .TableOfContents }}
+		</aside>
+		</div>
+		{{end}}
+		{{end}}
+  
+
 		<section class="body">
 			{{ .Content }}
 		</section>
