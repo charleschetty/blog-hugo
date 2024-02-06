@@ -1,7 +1,7 @@
 ---
 title: "A tutorial about NeoVim"
 date: 2024-02-04
-description: "A step by step guide"
+description: "A step by step guide(todo)"
 tags: [IDE, vim]
 toc: true
 ---
